@@ -61,4 +61,20 @@ public class myHelper extends SQLiteOpenHelper {
         }
         return dictionaryList;
     }
+
+    public List<Word> getWordByName(String word, SQLiteDatabase db)
+    {
+
+        List<Word> dictionaryList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from WORDS where Word ='"+word+"'", null );
+
+        if(cursor.getCount() > 0)
+        {
+            while (cursor.moveToNext())
+            {
+                dictionaryList.add(new Word(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
+            }
+        }
+        return dictionaryList;
+    }
 }
