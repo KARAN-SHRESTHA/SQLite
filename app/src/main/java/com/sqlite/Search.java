@@ -1,9 +1,11 @@
 package com.sqlite;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +53,7 @@ public class Search extends AppCompatActivity {
         List<Word> wordList = new ArrayList<>();
         wordList = Myhelper.getWordByName(word, sqldb);
 
-        HashMap<String, String> hashMap = new HashMap<>();
+        final HashMap<String, String> hashMap = new HashMap<>();
 
         for (int i=0;i< wordList.size(); i++)
         {
@@ -67,5 +69,21 @@ public class Search extends AppCompatActivity {
         );
 
         Listview.setAdapter(StringArrayAdapter);
+
+        Listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                String key = parent.getItemAtPosition(position).toString();
+                String meaning = hashMap.get(key);
+
+                Intent intent = new Intent(Search.this, Detail.class);
+                intent.putExtra("Meaning", meaning);
+                startActivity(intent);
+
+            }
+        });
+
     }
 }
